@@ -45,20 +45,20 @@ cpuUsage=$(printf "%.0f" "$(CPU_metrics)")
 if [ "$dskusage" -gt "$Disk_threshold" ]
 then 
     echo "Disk limt exceeded!!!" 1>>$logfile
-    mail -s "Disk Limit Alert" email@address.com <<< "Disk usage has exceeded Limit. Kindly review"
+    mail -s "Disk Limit Alert" lampteyebenezer220@gmail.com <<< "Disk usage has exceeded Limit. Kindly review"
 fi 
 
 if [ "$memusage" -gt "$Mem_threshold" ]
 then 
     echo "Memory limit exceeded!!!" 1>>$logfile
-    mail -s "Memory Limit Alert" email@address.com <<< "Memory usage has exceeded Limit. Kindly review"
+    mail -s "Memory Limit Alert" lampteyebenezer220@gmail.com<<< "Memory usage has exceeded Limit. Kindly review"
 fi 
 
 if [ "$cpuUsage" -gt "$Mem_threshold" ]
 then 
     echo "CPU limit exceeded!!!" 1>>$logfile
-    mail -s "CPU Limit Alert" email@address.com <<< "CPU usage has exceeded Limit. Kindly review"
+    mail -s "CPU Limit Alert" lampteyebenezer220@gmail.com <<< "CPU usage has exceeded Limit. Kindly review"
 fi 
 
-cron_job="0 */4 * * * /workspace/Automated-System-Monitoring-/Monitor.sh 1>>$logfile"
-(crontab -l | grep -v -F "$cron_job"; echo "$cron_job") | crontab -
+cron_job="0 */4 * * * /usr/local/bin/monitor.sh 1>>/var/log/monitor.log 2>&1"
+(crontab -l 2>/dev/null | grep -v -F "$cron_job"; echo "$cron_job") | crontab -

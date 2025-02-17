@@ -15,4 +15,3 @@ RUN echo "0 */4 * * * /workspace/Automated-System-Monitoring-/Monitor.sh 1>>/var
 
 # Start cron in the foreground
 CMD service cron start && tail -f /dev/null
-

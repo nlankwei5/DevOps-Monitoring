@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  sys-monitor:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.monitor  # Rename the monitoring Dockerfile to avoid conflicts
+    container_name: sys-monitor
+    networks:
+      - monitor-network
+    volumes:
+      - logs:/var/log  # Persist logs
+
+  python-api:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.api  # Rename the FastAPI Dockerfile
+    container_name: python-api
+    networks:
+      - monitor-network
+    ports:
+      - "8000:8000"
+    depends_on:
+      - sys-monitor
+
+networks:
+  monitor-network:
+
+volumes:
+  logs:

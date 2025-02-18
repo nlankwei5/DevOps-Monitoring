@@ -12,16 +12,16 @@ services:
 
   api:
     build:
-      context: ./python-api 
-      dockerfile: ../docker/Dockerfile.api  # Use the correct API Dockerfile
+      context: .  # build context is the project root
+      dockerfile: docker/Dockerfile.api  # ensure this path is correct relative to project root
     container_name: api-service
     ports:
-      - "8000:8000"  # Expose API to host machine
+      - "8000:8000"
     depends_on:
       - monitor
     volumes:
-      - logs:/var/log  # Shared volume for logs
+      - logs:/var/log
     restart: always
-
+    
 volumes:
   logs:

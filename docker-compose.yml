@@ -12,7 +12,7 @@ services:
 
   api:
     build:
-      context: ./python_api 
+      context: ./python-api 
       dockerfile: ../docker/Dockerfile.api  # Use the correct API Dockerfile
     container_name: api-service
     ports:

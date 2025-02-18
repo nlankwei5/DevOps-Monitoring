@@ -8,35 +8,34 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, 'skip-ci')"
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Debug GitHub Secrets
-        run: |
-          echo "Checking GitHub Secrets..."
-          echo "DOCKER_USERNAME is set to: ${DOCKER_USERNAME:-'Not Set'}"
-          echo "DOCKER_PASSWORD is set to: ${DOCKER_PASSWORD:-'Not Set'}"
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        uses: docker/setup-buildx-action@v2
 
       - name: Log in to Docker Hub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and Push Docker Image
+      - name: Build and Push FastAPI Image
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: docker/Dockerfile
+          file: docker/Dockerfile.api  # Correct Dockerfile path
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/my-bash-monitor:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/python-api:latest
+
+      - name: Build and Push Monitor Image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: docker/Dockerfile.monitor  # Correct Dockerfile path
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/sys-monitor:latest
 
       

@@ -13,7 +13,7 @@ services:
   api:
     build:
       context: ./python_api 
-      dockerfile: docker/Dockerfile.api  # Use the correct API Dockerfile
+      dockerfile: ../docker/Dockerfile.api  # Use the correct API Dockerfile
     container_name: api-service
     ports:
       - "8000:8000"  # Expose API to host machine
